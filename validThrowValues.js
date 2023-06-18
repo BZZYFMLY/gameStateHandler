@@ -59,8 +59,8 @@ const validThrowValues = [
   "D3",
   "D2",
   "D1",
-  "Bullseye",
-  "Double Bullseye",
+  "B",
+  "DB",
 ];
 
 export default validThrowValues;
