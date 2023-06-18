@@ -14,8 +14,9 @@ class RoundHandler {
 
   constructor(players, starter) {
     this.#players = players;
-    this.#starter = starter;
     this.#numberOfPlayers = players.length;
+    this.#starter = this.getStarter(starter);
+
     this.#round = 0;
     this.#playersLeft = this.#numberOfPlayers;
     this.#roundFinished = false;
@@ -25,18 +26,34 @@ class RoundHandler {
     this.#validThrows = validThrowValues;
   }
 
+  getStarter(starter) {
+    if (typeof starter === "number" && starter < this.#numberOfPlayers)
+      return starter;
+
+    if (typeof starter === "string" && this.#players.includes(starter))
+      return this.players.indexOf(starter);
+
+    console.error("No starter found!");
+    return 0;
+  }
+
   *calcNextPlayer() {
     while (true) {
+      console.log(
+        `Current players (${this.currentPlayer}) result:`,
+        this.currentPlayersRoundResult,
+      );
       this.#currentPlayer = this.validate(this.#currentPlayer + 1);
       if (this.#currentPlayer === this.#starter) {
         this.#round++;
         this.#playersLeft = 0;
         this.#roundFinished = true;
-        console.log("Next round");
+        console.log("Next round:", this.#round);
       } else {
         this.#roundFinished = false;
         this.#playersLeft = this.validate(this.#playersLeft - 1);
       }
+      console.log("Next player:", this.nextPlayer, "round:", this.#round);
       yield this.#players[this.#currentPlayer];
     }
   }
@@ -46,8 +63,6 @@ class RoundHandler {
   }
 
   setNextPlayer() {
-    console.log("Current players result:", this.currentPlayersRoundResult);
-    console.log("Next player:", this.nextPlayer);
     return this.#getNextPlayer.next().value;
   }
 
@@ -120,7 +135,8 @@ const roundHandler = new RoundHandler(
 
 const randomThrow = () =>
   validThrowValues[Math.floor(Math.random() * validThrowValues.length)];
+
 for (let i = 0; i < 50; i++) {
   roundHandler.addThrow(randomThrow());
 }
-console.log(roundHandler.gameState);
+console.log(roundHandler.gameState.throws);
