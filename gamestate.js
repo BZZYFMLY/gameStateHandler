@@ -1,36 +1,39 @@
 class GameState {
   #players;
   #starter;
-  #rounds;
+  #round;
   #roundFinished;
   #currentPlayer;
   #getNextPlayer;
   #numberOfPlayers;
   #playersLeft;
+  #throws;
 
   constructor(players, starter) {
     this.#players = players;
     this.#starter = starter;
     this.#numberOfPlayers = players.length;
-    this.#rounds = 0;
+    this.#round = 0;
     this.#playersLeft = this.#numberOfPlayers;
     this.#roundFinished = false;
     this.#currentPlayer = this.validate(starter);
     this.#getNextPlayer = this.calcNextPlayer();
+    this.#throws = {};
   }
 
   *calcNextPlayer() {
     while (true) {
-      yield this.#players[this.#currentPlayer];
       this.#currentPlayer = this.validate(this.#currentPlayer + 1);
       if (this.#currentPlayer === this.#starter) {
-        this.#rounds++;
-        this.#playersLeft = 0
+        this.#round++;
+        this.#playersLeft = 0;
         this.#roundFinished = true;
+        console.log("Next round")
       } else {
         this.#roundFinished = false;
         this.#playersLeft = this.validate(this.#playersLeft - 1);
       }
+      yield this.#players[this.#currentPlayer];
     }
   }
 
@@ -39,7 +42,13 @@ class GameState {
   }
 
   setNextPlayer() {
+    console.log("Current players result:", this.currentPlayersRoundResult);
+    console.log("Next player:", this.nextPlayer);
     return this.#getNextPlayer.next().value;
+  }
+
+  get currentPlayersRoundResult() {
+    return this.#throws[this.currentPlayer]?.[this.#round];
   }
 
   get nextPlayer() {
@@ -54,36 +63,75 @@ class GameState {
     return this.#players[this.#currentPlayer];
   }
 
+  get players() {
+    return this.#players;
+  }
+
+  addThrow(throwValue) {
+    if (!this.#throws[this.currentPlayer]) {
+      this.#throws[this.currentPlayer] = [];
+    }
+
+    if (!this.#throws[this.currentPlayer][this.#round]) {
+      this.#throws[this.currentPlayer][this.#round] = [];
+    }
+
+    this.#throws[this.currentPlayer][this.#round].push(throwValue);
+
+    if (this.#throws[this.currentPlayer][this.#round].length === 3) {
+      this.setNextPlayer();
+    }
+  }
+
   get roundData() {
     return {
-      rounds: this.#rounds,
+      round: this.#round,
       roundFinished: this.#roundFinished,
       currentPlayer: this.currentPlayer,
       prevPlayer: this.prevPlayer,
       nextPlayer: this.nextPlayer,
-      playersLeft: this.#playersLeft
+      playersLeft: this.#playersLeft,
+      throws: this.#throws,
     };
   }
 }
 
 const gameState = new GameState(
-  ["player1", "player2", "player3", "player4"],
+  ["Lali", "Mr. Bastardo", "Sebastian", "Mafadaka"],
   2,
 );
 
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
-console.log(gameState.setNextPlayer());
-console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+gameState.addThrow(20);
+// console.log(gameState.roundData);
