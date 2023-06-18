@@ -40,8 +40,11 @@ class RoundHandler {
   *calcNextPlayer() {
     while (true) {
       console.log(
-        `Current players (${this.currentPlayer}) result:`,
-        this.currentPlayersRoundResult,
+        `Player ${
+          this.currentPlayer
+        } finished his/her turn with results: ${this.currentPlayersRoundResult.join(
+          ", ",
+        )}`,
       );
       this.#currentPlayer = this.validate(this.#currentPlayer + 1);
       if (this.#currentPlayer === this.#starter) {
@@ -86,6 +89,14 @@ class RoundHandler {
     return this.#players;
   }
 
+  removePlayer(player) {
+    if (typeof player === "number" && player < this.#numberOfPlayers)
+      return this.#players.splice(player, 1);
+    if (typeof player === "string" && this.#players.includes(player))
+      return this.#players.filter((p) => p !== player);
+    return "No player found!";
+  }
+
   addThrow(throwValue) {
     const checkedThrow = "" + throwValue;
     if (!this.#validThrows.includes(checkedThrow)) {
@@ -100,6 +111,7 @@ class RoundHandler {
     }
 
     this.#throws[this.currentPlayer][this.#round].push(checkedThrow);
+    console.log(`Player ${this.currentPlayer} thrown: ${throwValue}`);
 
     if (this.#throws[this.currentPlayer][this.#round].length === 3) {
       this.setNextPlayer();
@@ -128,15 +140,5 @@ class RoundHandler {
   }
 }
 
-const roundHandler = new RoundHandler(
-  ["Lali", "Mr. Bastardo", "Sebastian", "Mafadaka"],
-  2,
-);
 
-const randomThrow = () =>
-  validThrowValues[Math.floor(Math.random() * validThrowValues.length)];
-
-for (let i = 0; i < 50; i++) {
-  roundHandler.addThrow(randomThrow());
-}
-console.log(roundHandler.gameState.throws);
+export default roundHandler;
