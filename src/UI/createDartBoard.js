@@ -1,5 +1,5 @@
-import arcOrder from "../Constants/arcOrder";
-import arcTypes from "../Constants/arcTypes";
+import arcOrder from "../Constants/arcOrder.js";
+import arcTypes from "../Constants/arcTypes.js";
 
 const createDartBoard = () => {
   console.log("Creating dart board...");
@@ -7,7 +7,7 @@ const createDartBoard = () => {
   const dartBoard = document.getElementById("dartboard");
   const arcs = dartBoard.getElementsByTagName("arcs");
 
-  const arcTempate = (value, index) => {
+  const arcTemplate = (value, index) => {
     const even = index % 2 === 0;
 
     const arcParts = arcTypes
@@ -34,23 +34,11 @@ const createDartBoard = () => {
 
   const boardArcs = arcOrder
     .map((value, index) => {
-      return arcTempate(value, index);
+      return arcTemplate(value, index);
     })
     .join("");
 
-  // arcs.innerHTML = boardArcs;
-
-  const innerBull = document.getElementById("innerBull");
-  const outerBull = document.getElementById("outerBull");
-
-  const hitFields = Array.from(dartBoard.getElementsByClassName("hit-field"));
-  [...hitFields, innerBull, outerBull].forEach((hitField) => {
-    hitField.addEventListener("click", () => {
-      console.log(hitField.getAttribute("data-value"));
-    });
-  });
-
-  console.log(boardArcs);
+  // console.log(boardArcs);
 };
 
 export default createDartBoard;
