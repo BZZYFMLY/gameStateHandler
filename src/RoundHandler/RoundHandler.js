@@ -1,4 +1,4 @@
-import validThrowValues from "../Constants/validThrowValues.js";
+import getValidThrowValues from "../Constants/getValidThrowValues.js";
 
 class RoundHandler {
   #players;
@@ -23,7 +23,7 @@ class RoundHandler {
     this.#currentPlayer = this.validate(starter);
     this.#getNextPlayer = this.calcNextPlayer();
     this.#throws = {};
-    this.#validThrows = validThrowValues;
+    this.#validThrows = getValidThrowValues();
   }
 
   getStarter(starter) {
