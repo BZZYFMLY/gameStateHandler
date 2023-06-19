@@ -5,7 +5,7 @@ class RoundHandler {
   #starter;
   #round;
   #roundFinished;
-  #currentPlayer;
+  #currentPlayerIndex;
   #getNextPlayer;
   #numberOfPlayers;
   #playersLeft;
@@ -20,7 +20,7 @@ class RoundHandler {
     this.#round = 0;
     this.#playersLeft = this.#numberOfPlayers;
     this.#roundFinished = false;
-    this.#currentPlayer = this.validate(starter);
+    this.#currentPlayerIndex = this.validate(starter);
     this.#getNextPlayer = this.calcNextPlayer();
     this.#throws = {};
     this.#validThrows = getValidThrowValues();
@@ -46,8 +46,11 @@ class RoundHandler {
           ", ",
         )}`,
       );
-      this.#currentPlayer = this.validate(this.#currentPlayer + 1);
-      if (this.#currentPlayer === this.#starter) {
+      console.log("Next player:", this.nextPlayer, "round:", this.#round);
+
+      this.#currentPlayerIndex = this.validate(this.#currentPlayerIndex + 1);
+
+      if (this.#currentPlayerIndex === this.#starter) {
         this.#round++;
         this.#playersLeft = 0;
         this.#roundFinished = true;
@@ -56,8 +59,7 @@ class RoundHandler {
         this.#roundFinished = false;
         this.#playersLeft = this.validate(this.#playersLeft - 1);
       }
-      console.log("Next player:", this.nextPlayer, "round:", this.#round);
-      yield this.#players[this.#currentPlayer];
+      yield this.#players[this.#currentPlayerIndex];
     }
   }
 
@@ -74,19 +76,23 @@ class RoundHandler {
   }
 
   get nextPlayer() {
-    return this.#players[this.validate(this.#currentPlayer + 1)];
+    return this.#players[this.validate(this.#currentPlayerIndex + 1)];
   }
 
   get prevPlayer() {
-    return this.#players[this.validate(this.#currentPlayer - 1)];
+    return this.#players[this.validate(this.#currentPlayerIndex - 1)];
   }
 
   get currentPlayer() {
-    return this.#players[this.#currentPlayer];
+    return this.#players[this.#currentPlayerIndex];
   }
 
   get players() {
     return this.#players;
+  }
+
+  get round() {
+    return this.#round;
   }
 
   removePlayer(player) {
@@ -95,6 +101,10 @@ class RoundHandler {
     if (typeof player === "string" && this.#players.includes(player))
       return this.#players.filter((p) => p !== player);
     return "No player found!";
+  }
+
+  get currentPlayerThrows() {
+    return this.#throws[this.currentPlayer];
   }
 
   addThrow(throwValue) {
