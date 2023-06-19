@@ -1,0 +1,47 @@
+.imageContainer {
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+}
+
+img {
+  width: 100%;
+}
+
+#dartboard .red {
+  fill: #dd2211;
+}
+
+#dartboard .red:hover {
+  fill: #dd2211aa;
+}
+
+#dartboard .green {
+  fill: #22aa22;
+}
+
+#dartboard .green:hover {
+  fill: #00ff00;
+}
+
+#dartboard .white {
+  fill: #eeddcc;
+}
+
+#dartboard .white:hover {
+  fill: #ffffee;
+}
+
+#dartboard .black {
+  fill: #000000;
+}
+
+#dartboard .black:hover {
+  fill: #333322;
+}
+
+
+
+
