@@ -18,7 +18,7 @@ img {
 }
 
 #dartboard .red:hover {
-  fill: #dd2211aa;
+  fill: #991100;
 }
 
 #dartboard .green {
@@ -30,7 +30,7 @@ img {
 }
 
 #dartboard .white {
-  fill: #eeddcc;
+  fill: #ddccbb;
 }
 
 #dartboard .white:hover {
@@ -42,7 +42,7 @@ img {
 }
 
 #dartboard .black:hover {
-  fill: #333322;
+  fill: #444422;
 }
 
 #heatMap {
@@ -52,4 +52,8 @@ img {
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.hidden {
+  display: none;
 }
