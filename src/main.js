@@ -1,7 +1,5 @@
 import RoundHandler from "./RoundHandler/RoundHandler.js";
-import getValidThrowValues from "./Constants/getValidThrowValues.js";
-import createFieldActions from "./UI/createFieldActions.js";
-import UIHandler from "./UI/createFieldActions.js";
+import UIHandler from "./UI/UIHandler.js";
 
 
 const roundHandler = new RoundHandler(
